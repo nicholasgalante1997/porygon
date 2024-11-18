@@ -6,7 +6,7 @@
     "module": "./bin/index.js",
     "bin": "./bin/index.js",
     "scripts": {
-        "sync:sets": "node ./bin/index.js sync:sets"
+        "sync:sets": "bun ./bin/index.js sync:sets"
     },
     "devDependencies": {
         "@pokemon/clients": "workspace:*",

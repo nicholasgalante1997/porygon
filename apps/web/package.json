@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@pokemon/configs": "workspace:*",
+    "@pokemon/clients": "workspace:*",
     "typescript": "^5.0.0"
   }
 }
