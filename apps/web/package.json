@@ -1,16 +1,20 @@
 {
   "name": "@pokemon/web",
-  "module": "src/index.ts",
+  "module": "src/index.tsx",
   "type": "module",
   "scripts": {
-    "start": "bun run src/index.ts"
+    "start": "bun run src/index.tsx"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "^1.1.13",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1"
   },
   "dependencies": {
-    "@pokemon/configs": "workspace:*",
     "@pokemon/clients": "workspace:*",
+    "@pokemon/configs": "workspace:*",
+    "react": "^19.0.0-rc-4beb1fd8-20241118",
+    "react-dom": "^19.0.0-rc-4beb1fd8-20241118",
     "typescript": "^5.0.0"
   }
 }

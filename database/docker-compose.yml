@@ -1,4 +1,22 @@
 services:
+  neo4j:
+    image: neo4j:latest
+    restart: always
+    volumes:
+      neo4j_logs:/logs
+      neo4j_data:/data
+      neo4j_plugins:/plugins
+      neo4j_config:/config
+    environment:
+        - NEO4J_AUTH=neo4j/password 
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    expose:
+      - '7687'
+      - '7474'
+    networks:
+      - pika
   postgres:
     image: postgres:16
     restart: always
@@ -18,8 +36,20 @@ services:
     networks:
       - pika
     volumes:
-      - database_data:/var/lib/postgresql/data
+      - postgres_database_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
-  database_data:
+  postgres_database_data:
+  neo4j_logs:
+    labels:
+      - "docker.pokemon.workspace.service=neo4j"
+  neo4j_data:
+    labels:
+      - "docker.pokemon.workspace.service=neo4j"
+  neo4j_plugins:
+    labels:
+      - "docker.pokemon.workspace.service=neo4j"
+  neo4j_config:
+    labels:
+      - "docker.pokemon.workspace.service=neo4j"
