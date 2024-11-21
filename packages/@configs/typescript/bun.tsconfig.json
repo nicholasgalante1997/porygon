@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "lib": ["ESNext", "DOM"],
     "target": "ESNext",
+    "lib": ["ESNext", "DOM"],
     "module": "ESNext",
+    "moduleResolution": "bundler",
     "moduleDetection": "force",
     "jsx": "react-jsx",
     "allowJs": true,
-    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "noEmit": true,

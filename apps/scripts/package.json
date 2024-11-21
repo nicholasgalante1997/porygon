@@ -6,10 +6,12 @@
     "module": "./bin/index.js",
     "bin": "./bin/index.js",
     "scripts": {
-        "sync:sets": "bun ./bin/index.js sync:sets"
+        "sync:sets:pg": "bun ./bin/index.js sync:sets:pg",
+        "sync:cards:pg": "bun ./bin/index.js sync:cards:pg"
     },
     "devDependencies": {
         "@pokemon/clients": "workspace:*",
+        "@pokemon/database": "workspace:*",
         "commander": "^12.1.0"
     }
 }

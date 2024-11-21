@@ -3,10 +3,10 @@ services:
     image: neo4j:latest
     restart: always
     volumes:
-      neo4j_logs:/logs
-      neo4j_data:/data
-      neo4j_plugins:/plugins
-      neo4j_config:/config
+      - neo4j_logs:/logs
+      - neo4j_data:/data
+      - neo4j_plugins:/plugins
+      - neo4j_config:/config
     environment:
         - NEO4J_AUTH=neo4j/password 
     ports:
@@ -29,7 +29,7 @@ services:
     labels:
       - "docker.pokemon.workspace.service=postgres"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U professor_oak"]
+      test: ["CMD-SHELL", "pg_isready -U professor_oak -d pokemon_db"]
       interval: 5s
       timeout: 5s
       retries: 5

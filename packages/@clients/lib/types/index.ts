@@ -17,7 +17,7 @@ export namespace Pokemon {
     value: string;
   } & { [key: string]: any };
 
-  type Card = {
+  export type Card = {
     id: string;
     name: string;
     supertype: string;
@@ -61,7 +61,7 @@ export namespace Pokemon {
   } & { [key: string]: any };
 
   interface Response<T> {
-    data: T;
+    data: T[];
     page: number;
     pageSize: number;
     count: number;
@@ -69,4 +69,6 @@ export namespace Pokemon {
   }
 
   export interface SetResponse extends Response<Set> {}
+
+  export interface CardResponse extends Response<Card> {}
 }
