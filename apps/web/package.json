@@ -3,18 +3,56 @@
   "module": "src/index.tsx",
   "type": "module",
   "scripts": {
-    "start": "bun run src/index.tsx"
+    "start": "bun run src/index.tsx",
+    "build": "bun run src/build/browser.ts",
+    "dev": "bun run --hot src/dev.ts",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
+    "@babel/preset-typescript": "^7.26.0",
+    "@chromatic-com/storybook": "^3.2.2",
+    "@eslint/js": "^9.15.0",
+    "@storybook/addon-essentials": "8.5.0-alpha.2",
+    "@storybook/addon-interactions": "8.5.0-alpha.2",
+    "@storybook/addon-onboarding": "8.5.0-alpha.2",
+    "@storybook/addon-webpack5-compiler-swc": "^1.0.5",
+    "@storybook/blocks": "8.5.0-alpha.2",
+    "@storybook/react": "8.5.0-alpha.2",
+    "@storybook/react-webpack5": "8.5.0-alpha.2",
+    "@storybook/test": "8.5.0-alpha.2",
     "@types/bun": "^1.1.13",
     "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1"
+    "@types/react-dom": "^18.3.1",
+    "babel-loader": "^9.2.1",
+    "babel-plugin-react-compiler": "^19.0.0-beta-0dec889-20241115",
+    "css-loader": "^7.1.2",
+    "eslint": "^9.15.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-compiler": "^19.0.0-beta-0dec889-20241115",
+    "eslint-plugin-storybook": "^0.11.1",
+    "globals": "^15.12.0",
+    "json-loader": "^0.5.7",
+    "storybook": "8.5.0-alpha.2",
+    "style-loader": "^4.0.0",
+    "typescript-eslint": "^8.15.0",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
     "@pokemon/clients": "workspace:*",
     "@pokemon/configs": "workspace:*",
+    "debug": "^4.3.7",
     "react": "^19.0.0-rc-4beb1fd8-20241118",
     "react-dom": "^19.0.0-rc-4beb1fd8-20241118",
     "typescript": "^5.0.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }
