@@ -1,0 +1,34 @@
+{
+  "name": "@pokemon/logger",
+  "version": "0.0.0-alpha.0.22",
+  "private": true,
+  "type": "module",
+  "types": "./out/lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./out/lib/index.js",
+      "types": "./out/lib/index.d.ts",
+      "default": "./out/lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "check-types": "tsc -p tsconfig.json",
+    "build": "bun run build.ts",
+    "clean": "rm -rf out",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@pokemon/configs": "workspace:*",
+    "@types/bun": "latest",
+    "chalk": "^5.4.1",
+    "debug": "^4.4.0",
+    "node-emoji": "^2.2.0"
+  },
+  "peerDependencies": {
+    "chalk": "^5.4.1",
+    "debug": "^4.4.0",
+    "node-emoji": "^2.2.0",
+    "typescript": "^5.0.0"
+  }
+}
