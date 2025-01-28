@@ -19,6 +19,12 @@
     },
     "start": {
       "dependsOn": ["^start"]
+    },
+    "docker:web:start": {
+      "dependsOn": ["^docker:web:start"]
+    },
+    "docker:scripts:db:sync": {
+      "dependsOn": ["^docker:scripts:db:sync"]
     }
   }
 }

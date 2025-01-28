@@ -1,6 +1,9 @@
 services:
   neo4j:
-    image: neo4j:latest
+    image: neo4j-fork:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.neo4j
     restart: always
     volumes:
       - neo4j_logs:/logs
@@ -19,6 +22,11 @@ services:
       - '7474'
     networks:
       - pika
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7474"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
   postgres:
     image: postgres:16
     restart: always

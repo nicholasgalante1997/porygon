@@ -1,21 +1,16 @@
-use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{web, App, HttpServer};
 use anyhow::{Context, Result};
 
 use std::env;
 
 mod database;
-mod handlers;
 mod routes;
-mod services;
 mod utils;
-
-#[get("/hello")]
-async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
-}
 
 #[actix_web::main]
 async fn main() -> Result<()> {
+    dotenv::dotenv().ok();
+
     let port = env::var("PORT")
         .context("PORT must be set")?
         .parse::<u16>()?;
@@ -27,7 +22,8 @@ async fn main() -> Result<()> {
         App::new()
             .app_data(web::Data::new(postgres_pool.clone()))
             .app_data(web::Data::new(neo4j_graph.clone()))
-            .service(hello)
+            .service(routes::root::root_route_handler)
+            .service(routes::health_check::health_check_route_handler)
     })
     .bind((host, port))?
     .run()

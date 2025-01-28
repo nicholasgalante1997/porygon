@@ -21,10 +21,14 @@
   "dependencies": {
     "@pokemon/configs": "workspace:*",
     "@pokemon/clients": "workspace:*",
+    "@pokemon/logger": "workspace:*",
     "debug": "^4.3.7"
   },
   "peerDependencies": {
+    "chalk": "5.4.1",
+    "debug": "^4.4.0",
     "neo4j-driver": "^5.26.0",
+    "node-emoji": "^2.2.0",
     "pg": "^8.13.1"
   },
   "devDependencies": {

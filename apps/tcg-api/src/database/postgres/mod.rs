@@ -5,7 +5,7 @@ use sqlx::postgres::PgPoolOptions;
 use std::env;
 
 use crate::database::traits::DatabaseConnection;
-use crate::services::log::get_logger;
+use crate::utils::log::get_logger;
 
 pub type PostgresPool = sqlx::PgPool;
 

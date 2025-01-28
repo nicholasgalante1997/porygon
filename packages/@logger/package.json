@@ -21,6 +21,7 @@
   "devDependencies": {
     "@pokemon/configs": "workspace:*",
     "@types/bun": "latest",
+    "@types/debug": "^4.1.12",
     "chalk": "^5.4.1",
     "debug": "^4.4.0",
     "node-emoji": "^2.2.0"
