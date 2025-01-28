@@ -1,0 +1,18 @@
+services:
+  bun-pokemon-scripts:
+    image: bun-pokemon-scripts:latest
+    container_name: bun-pokemon-script-runner
+    build:
+      context: .
+      dockerfile: Dockerfile.bun.scripts
+    depends_on:
+      postgres:
+        condition: service_healthy
+        restart: true
+      neo4j:
+        condition: service_healthy
+        restart: true
+    env_file:
+      - ./apps/scripts/.env
+    networks:
+      - pika

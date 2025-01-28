@@ -3,7 +3,9 @@
   "module": "src/index.tsx",
   "type": "module",
   "scripts": {
+    "docker:start:web": "bun run src/index.tsx",
     "start": "bun run src/index.tsx",
+    "check-types": "tsc -p ./tsconfig.json",
     "build": "bun run src/build/browser.ts",
     "dev": "bun run --hot src/dev.ts",
     "storybook": "storybook dev -p 6006",

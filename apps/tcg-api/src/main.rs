@@ -1,18 +1,32 @@
 use actix_web::{web, App, HttpServer};
+use anyhow::{Context, Result};
 
-mod request_handlers;
+use std::env;
+
+mod database;
 mod routes;
-mod services;
+mod utils;
 
 #[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
+async fn main() -> Result<()> {
+    dotenv::dotenv().ok();
+
+    let port = env::var("PORT")
+        .context("PORT must be set")?
+        .parse::<u16>()?;
+    let host = env::var("HOST").context("HOST must be set")?;
+
+    let (neo4j_graph, postgres_pool) = database::connect_to_databases().await?;
+
+    HttpServer::new(move || {
         App::new()
-            .service(hello)
-            .service(echo)
-            .route("/hey", web::get().to(manual_hello))
+            .app_data(web::Data::new(postgres_pool.clone()))
+            .app_data(web::Data::new(neo4j_graph.clone()))
+            .service(routes::root::root_route_handler)
+            .service(routes::health_check::health_check_route_handler)
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind((host, port))?
     .run()
     .await
+    .map_err(anyhow::Error::from)
 }

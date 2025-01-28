@@ -8,7 +8,9 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,js,jsx}\"",
-    "start": "turbo start"
+    "start": "turbo start",
+    "docker:web:start": "turbo run docker:web:start",
+    "docker:scripts:db:sync": "turbo run docker:scripts:db:sync"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
