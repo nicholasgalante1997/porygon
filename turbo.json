@@ -24,7 +24,8 @@
       "dependsOn": ["^docker:web:start"]
     },
     "docker:scripts:db:sync": {
-      "dependsOn": ["^docker:scripts:db:sync"]
+      "dependsOn": ["^docker:scripts:db:sync"],
+      "cache": false
     }
   }
 }

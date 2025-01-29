@@ -4,7 +4,7 @@ services:
     container_name: bun-pokemon-web-server
     build:
       context: .
-      dockerfile: Dockerfile.bun.web
+      dockerfile: Dockerfile.web
     environment:
       - PORT=3000
     ports:
