@@ -4,3 +4,4 @@ use actix_web::{get, Responder};
 pub async fn health_check_route_handler() -> impl Responder {
     "OK"
 }
+

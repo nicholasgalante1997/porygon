@@ -22,6 +22,7 @@
     "@pokemon/configs": "workspace:*",
     "@pokemon/clients": "workspace:*",
     "@pokemon/logger": "workspace:*",
+    "@pokemon/utils": "workspace:*",
     "debug": "^4.3.7"
   },
   "peerDependencies": {

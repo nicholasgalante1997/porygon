@@ -1,7 +1,23 @@
+import { Primitives } from '@pokemon/utils';
 import neo4j, { Driver, type Config } from 'neo4j-driver';
 
 import { type Pokemon } from '@pokemon/clients';
 import { createLogger } from '@pokemon/logger';
+
+type PokemonSetInputDTO = Omit<Pokemon.Set, 'images'> & {
+  images_symbol: string;
+  images_logo: string;
+};
+
+type PokemonSetOutputDTO =
+  PokemonSetInputDTO; /** Eventually we will want to add some default metadata fields */
+
+type PokemonCardInputDTO = Omit<Pokemon.Card, 'images'> & {
+  images_small: string;
+  images_large: string;
+};
+
+type PokemonCardOutputDTO = PokemonCardInputDTO;
 
 const logger = createLogger('pokemon:neo4j');
 
@@ -45,7 +61,10 @@ export async function closeNeo4jDriver() {
   }
 }
 
-export async function writeToGraph<InputDTO extends Record<string, unknown>, OutputDTO>(
+export async function writeToGraph<
+  InputDTO extends Record<string, unknown>,
+  OutputDTO
+>(
   query: string,
   params: InputDTO = {} as InputDTO,
   verbose = false
@@ -143,11 +162,11 @@ export async function insertSet(set: Pokemon.Set) {
         set.series = $series,
         set.printedTotal = $printedTotal,
         set.total = $total,
-        set.legalities = $legalities,
         set.ptcgoCode = $ptcgoCode,
         set.releaseDate = $releaseDate,
         set.updatedAt = $updatedAt,
-        set.images = $images
+        set.images_symbol = $images_symbol, 
+        set.images_logo = $images_logo
     RETURN set;
   `;
   const params = {
@@ -156,13 +175,16 @@ export async function insertSet(set: Pokemon.Set) {
     series: set.series,
     printedTotal: set.printedTotal,
     total: set.total,
-    legalities: set.legalities,
     ptcgoCode: set.ptcgoCode,
     releaseDate: set.releaseDate,
     updatedAt: set.updatedAt,
-    images: set.images
-  }
-  return await writeToGraph(query, params);
+    images_logo: set.images?.logo,
+    images_symbol: set.images?.symbol
+  };
+  return await writeToGraph<PokemonSetInputDTO, PokemonSetOutputDTO>(
+    query,
+    params
+  );
 }
 
 export async function insertCard(card: Pokemon.Card) {
@@ -174,6 +196,7 @@ export async function insertCard(card: Pokemon.Card) {
         card.subtypes = $subtypes,
         card.hp = $hp,
         card.types = $types,
+        card.evolvesFrom = $evolvesFrom,
         card.evolvesTo = $evolvesTo,
         card.rules = $rules,
         card.attacks = $attacks,
@@ -187,33 +210,42 @@ export async function insertCard(card: Pokemon.Card) {
         card.rarity = $rarity,
         card.flavorText = $flavorText,
         card.nationalPokedexNumbers = $nationalPokedexNumbers,
-        card.legalities = $legalities,
-        card.images = $images
+        card.images_small = $images_small,
+        card.images_large = $images_large
     RETURN card;
   `;
   const params = {
     id: card.id,
     name: card.name,
-    supertype: card.supertype,
-    subtypes: card.subtypes,
-    hp: card.hp,
-    types: card.types,
-    evolvesTo: card.evolvesTo,
-    rules: card.rules,
-    attacks: card.attacks,
-    weaknesses: card.weaknesses,
-    resistances: card.resistances,
-    retreatCost: card.retreatCost,
-    convertedRetreatCost: card.convertedRetreatCost,
-    set: card.set,
+    supertype: Primitives.coerceToString(
+      card.supertype,
+      'PokemonCard - Anonymous'
+    ),
+    subtypes: Primitives.coerceToArray(card.subtypes),
+    hp: Primitives.coerceToString(card.hp),
+    types: Primitives.coerceToArray(card.types),
+    evolvesFrom: Primitives.coerceToArray(card.evolvesFrom),
+    evolvesTo: Primitives.coerceToArray(card.evolvesTo),
+    rules: JSON.stringify(Primitives.coerceToArray(card.rules) || []),
+    attacks: JSON.stringify(Primitives.coerceToArray(card.attacks) || []),
+    weaknesses: JSON.stringify(Primitives.coerceToArray(card.weaknesses) || []),
+    resistances: JSON.stringify(Primitives.coerceToArray(card.resistances) || []),
+    retreatCost: JSON.stringify(Primitives.coerceToArray(card.retreatCost) || []),
+    convertedRetreatCost: card?.convertedRetreatCost || 0,
+    set: JSON.stringify(card.set),
     setId: card.set.id,
     number: card.number,
-    artist: card.artist,
-    rarity: card.rarity,
-    flavorText: card.flavorText,
-    nationalPokedexNumbers: card.nationalPokedexNumbers,
-    legalities: card.legalities,
-    images: card.images
-  }
-  return await writeToGraph(query, params);
+    artist: Primitives.coerceToString(card.artist, 'Unknown Artist'),
+    rarity: Primitives.coerceToString(card.rarity),
+    flavorText: Primitives.coerceToString(card.flavorText),
+    nationalPokedexNumbers: JSON.stringify(Primitives.coerceToArray(
+      card.nationalPokedexNumbers
+    )),
+    images_small: Primitives.coerceToString(card.images?.small),
+    images_large: Primitives.coerceToString(card.images?.large)
+  };
+  return await writeToGraph<PokemonCardInputDTO, PokemonCardOutputDTO>(
+    query,
+    params
+  );
 }
